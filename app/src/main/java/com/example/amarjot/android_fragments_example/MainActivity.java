@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupFragments();
+        setupButton();
+    }
+
+    private void setupButton() {
         final Button swapButton = findViewById(R.id.buttonSwap);
         swapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transactionA = getSupportFragmentManager().beginTransaction();
                 FragmentTransaction transactionB = getSupportFragmentManager().beginTransaction();
 
+                // Swap Fragments with each other
                 if (swap_switch)
                 {
                     // Replace whatever is in the fragment_container view with this fragment,
@@ -39,39 +44,32 @@ public class MainActivity extends AppCompatActivity {
                     transactionA.replace(R.id.fragmentLeft, fragmentB);
                     transactionB.replace(R.id.fragmentRight, fragmentA);
                     swap_switch = false;
-
-                    System.out.println("x");
                 }
                 else
                 {
-
-                    // Replace whatever is in the fragment_container view with this fragment,
-                    // and add the transaction to the back stack so the user can navigate back
                     transactionA.replace(R.id.fragmentLeft, fragmentA);
                     transactionB.replace(R.id.fragmentRight, fragmentB);
                     swap_switch = true;
-                    System.out.println("y");
                 }
 
                 // Commit the transaction
                 transactionA.commit();
                 transactionB.commit();
-
             }
         });
-
     }
+
     public void setupFragments()
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        // Creating fragmentA and placing it on left side
         FragmentTransaction fragmentTransactionLeft = fragmentManager.beginTransaction();
-
         fragment_a fragmentA = new fragment_a();
         fragmentTransactionLeft.add(R.id.fragmentLeft, fragmentA);
         fragmentTransactionLeft.commit();
 
+        // Creating fragmentB and placing it on right side
         FragmentTransaction fragmentTransactionRight = fragmentManager.beginTransaction();
-
         fragment_b fragmentB = new fragment_b();
         fragmentTransactionRight.add(R.id.fragmentRight, fragmentB);
         fragmentTransactionRight.commit();
